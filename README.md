@@ -241,7 +241,12 @@ Current release process:
 5. Wait for GitHub Actions to pass.
 6. Review the diff and merge.
 
-Deployment is not configured yet. Before adding cloud deployment, the target platforms, root directories, build commands, start commands, and environment variables should be confirmed explicitly.
+## Deployment
+
+The application is deployed and available online:
+
+- Frontend: https://lateral-stays-web.vercel.app
+- API: https://lateral-stays.onrender.com
 
 ## What I Would Improve Next
 
@@ -251,5 +256,4 @@ Deployment is not configured yet. Before adding cloud deployment, the target pla
 - Improve error response mapping in the frontend.
 - Add more accessibility checks and keyboard-flow testing.
 - Add pagination or infinite loading for larger stay datasets.
-- Add deployment configuration after choosing the cloud platforms.
 - Add end-to-end tests for the critical booking journey.
