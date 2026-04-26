@@ -3,6 +3,16 @@ import request from "supertest";
 import { app } from "../app.js";
 
 describe("Travel API", () => {
+  it("returns a JSON 404 for unknown routes", async () => {
+    const response = await request(app).get("/unknown-route").expect(404);
+
+    expect(response.body).toEqual({
+      error: {
+        message: "Route not found."
+      }
+    });
+  });
+
   describe("GET /stays", () => {
     it("returns a list of stays", async () => {
       const response = await request(app).get("/stays").expect(200);
@@ -153,6 +163,38 @@ describe("Travel API", () => {
         .expect(400);
 
       expect(response.body.error.message).toBe("checkOut must be after checkIn.");
+    });
+
+    it("rejects invalid calendar dates", async () => {
+      const response = await request(app)
+        .post("/bookings")
+        .send({
+          stayId: "stay-lisbon-riverside-loft",
+          guestName: "Jordan Lee",
+          guestEmail: "jordan@example.com",
+          checkIn: "2026-02-31",
+          checkOut: "2026-03-03",
+          guests: 2
+        })
+        .expect(400);
+
+      expect(response.body.error.message).toBe("Invalid booking dates.");
+    });
+
+    it("validates stay availability", async () => {
+      const response = await request(app)
+        .post("/bookings")
+        .send({
+          stayId: "stay-lisbon-riverside-loft",
+          guestName: "Jordan Lee",
+          guestEmail: "jordan@example.com",
+          checkIn: "2026-11-01",
+          checkOut: "2026-11-05",
+          guests: 2
+        })
+        .expect(400);
+
+      expect(response.body.error.message).toBe("Booking dates must be within the stay availability window.");
     });
 
     it("validates stay capacity", async () => {

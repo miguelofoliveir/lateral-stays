@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 
 import { formatCurrency } from "../../../shared/utils/formatters";
 import type { Stay } from "../../stays/types/stay.types";
-import { bookingSchema, type BookingFormInput, type BookingFormValues } from "../schemas/booking.schema";
+import { createBookingSchema, type BookingFormInput, type BookingFormValues } from "../schemas/booking.schema";
 
 interface CheckoutFormProps {
   stay: Stay;
@@ -17,7 +17,7 @@ export const CheckoutForm = ({ stay, isSubmitting, onSubmit }: CheckoutFormProps
     handleSubmit,
     formState: { errors }
   } = useForm<BookingFormInput, unknown, BookingFormValues>({
-    resolver: zodResolver(bookingSchema),
+    resolver: zodResolver(createBookingSchema(stay.maxGuests)),
     defaultValues: {
       guestName: "",
       guestEmail: "",
@@ -31,6 +31,7 @@ export const CheckoutForm = ({ stay, isSubmitting, onSubmit }: CheckoutFormProps
     <form
       className="space-y-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
       onSubmit={handleSubmit(onSubmit)}
+      noValidate
     >
       <div>
         <h2 className="text-2xl font-semibold text-slate-950">Guest details</h2>
@@ -64,6 +65,8 @@ export const CheckoutForm = ({ stay, isSubmitting, onSubmit }: CheckoutFormProps
           <input
             className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-600"
             type="date"
+            min={stay.availableFrom}
+            max={stay.availableTo}
             {...register("checkIn")}
           />
           {errors.checkIn ? <p className="mt-1 text-sm text-rose-700">{errors.checkIn.message}</p> : null}
@@ -74,6 +77,8 @@ export const CheckoutForm = ({ stay, isSubmitting, onSubmit }: CheckoutFormProps
           <input
             className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-600"
             type="date"
+            min={stay.availableFrom}
+            max={stay.availableTo}
             {...register("checkOut")}
           />
           {errors.checkOut ? <p className="mt-1 text-sm text-rose-700">{errors.checkOut.message}</p> : null}

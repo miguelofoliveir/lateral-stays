@@ -1,23 +1,14 @@
 import { findStayById } from "../stays/stays.service.js";
 import { HttpError } from "../../shared/utils/http-error.js";
+import { parseDateOnly } from "../../shared/utils/date.js";
 import { bookings } from "./bookings.mock.js";
 import type { Booking, CreateBookingInput } from "./bookings.types.js";
 
 const millisecondsPerDay = 24 * 60 * 60 * 1000;
 
-const parseDate = (value: string): Date => {
-  const date = new Date(`${value}T00:00:00.000Z`);
-
-  if (Number.isNaN(date.getTime())) {
-    throw new HttpError(400, "Invalid booking dates.");
-  }
-
-  return date;
-};
-
 const calculateNights = (checkIn: string, checkOut: string): number => {
-  const checkInDate = parseDate(checkIn);
-  const checkOutDate = parseDate(checkOut);
+  const checkInDate = parseDateOnly(checkIn);
+  const checkOutDate = parseDateOnly(checkOut);
   const nights = Math.round((checkOutDate.getTime() - checkInDate.getTime()) / millisecondsPerDay);
 
   if (nights <= 0) {
@@ -25,6 +16,12 @@ const calculateNights = (checkIn: string, checkOut: string): number => {
   }
 
   return nights;
+};
+
+const validateStayAvailability = (input: CreateBookingInput, availableFrom: string, availableTo: string): void => {
+  if (input.checkIn < availableFrom || input.checkOut > availableTo) {
+    throw new HttpError(400, "Booking dates must be within the stay availability window.");
+  }
 };
 
 export const createBooking = (input: CreateBookingInput): Booking => {
@@ -39,6 +36,7 @@ export const createBooking = (input: CreateBookingInput): Booking => {
   }
 
   const nights = calculateNights(input.checkIn, input.checkOut);
+  validateStayAvailability(input, stay.availableFrom, stay.availableTo);
   const booking: Booking = {
     id: `booking-${crypto.randomUUID()}`,
     stayId: input.stayId,
