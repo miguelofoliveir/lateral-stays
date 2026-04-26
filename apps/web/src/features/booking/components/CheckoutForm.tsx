@@ -102,7 +102,7 @@ export const CheckoutForm = ({ stay, isSubmitting, onSubmit }: CheckoutFormProps
         disabled={isSubmitting}
         className="w-full rounded-2xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
       >
-        {isSubmitting ? "Confirming..." : `Confirm booking from ${formatCurrency(stay.pricePerNight)} / night`}
+        {isSubmitting ? "Processing..." : `Confirm booking from ${formatCurrency(stay.pricePerNight)} / night`}
       </button>
     </form>
   );
