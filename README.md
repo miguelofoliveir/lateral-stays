@@ -6,6 +6,11 @@ The goal was to focus on product flow, clean architecture, and realistic fronten
 
 The app lets users browse stays, filter and sort results, open stay details, read and add reviews, complete a mocked checkout, and view a booking confirmation.
 
+## Live Demo
+
+- Frontend: https://lateral-stays-web.vercel.app
+- API: https://lateral-stays.onrender.com
+
 ## Tech Stack
 
 - **Monorepo:** npm workspaces
