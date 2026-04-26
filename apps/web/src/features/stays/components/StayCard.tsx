@@ -9,7 +9,11 @@ interface StayCardProps {
 
 export const StayCard = ({ stay }: StayCardProps) => (
   <article className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-    <img className="h-52 w-full object-cover" src={stay.images[0]} alt="" />
+    <img
+      className="h-52 w-full object-cover"
+      src={stay.images[0]}
+      alt={`${stay.name} in ${stay.location.city}, ${stay.location.country}`}
+    />
     <div className="space-y-4 p-5">
       <div>
         <p className="text-sm text-slate-500">

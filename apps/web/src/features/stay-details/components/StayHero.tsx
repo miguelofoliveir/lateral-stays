@@ -18,8 +18,16 @@ export const StayHero = ({ stay }: StayHeroProps) => (
     </div>
 
     <div className="grid gap-4 md:grid-cols-[2fr_1fr]">
-      <img className="h-80 w-full rounded-3xl object-cover" src={stay.images[0]} alt="" />
-      <img className="hidden h-80 w-full rounded-3xl object-cover md:block" src={stay.images[1]} alt="" />
+      <img
+        className="h-80 w-full rounded-3xl object-cover"
+        src={stay.images[0]}
+        alt={`${stay.name} in ${stay.location.city}, ${stay.location.country}`}
+      />
+      <img
+        className="hidden h-80 w-full rounded-3xl object-cover md:block"
+        src={stay.images[1]}
+        alt={`${stay.name} interior in ${stay.location.city}`}
+      />
     </div>
 
     <div className="grid gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:grid-cols-4">

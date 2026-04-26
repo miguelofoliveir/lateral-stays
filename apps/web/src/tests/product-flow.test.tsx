@@ -165,6 +165,25 @@ describe("product flow", () => {
     expect(mockedPostJson).not.toHaveBeenCalled();
   });
 
+  it("validates checkout guest capacity before submit", async () => {
+    const user = userEvent.setup();
+    mockedGetJson.mockResolvedValueOnce({ data: stay });
+
+    renderRoute("/stays/:id/checkout", `/stays/${stay.id}/checkout`, <CheckoutPage />);
+
+    await screen.findByRole("heading", { name: "Guest details" });
+    await user.type(screen.getByLabelText(/guest name/i), "Jordan Lee");
+    await user.type(screen.getByLabelText(/email/i), "jordan@example.com");
+    await user.type(screen.getByLabelText(/check-in/i), "2026-06-10");
+    await user.type(screen.getByLabelText(/check-out/i), "2026-06-13");
+    await user.clear(screen.getByLabelText(/guests/i));
+    await user.type(screen.getByLabelText(/guests/i), "4");
+    await user.click(screen.getByRole("button", { name: /confirm booking/i }));
+
+    expect(await screen.findByText("Guests cannot exceed 3.")).toBeInTheDocument();
+    expect(mockedPostJson).not.toHaveBeenCalled();
+  });
+
   it("creates a booking and navigates to confirmation", async () => {
     const user = userEvent.setup();
     mockedGetJson.mockResolvedValueOnce({ data: stay });

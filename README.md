@@ -97,7 +97,7 @@ Run only the frontend:
 npm run dev --workspace @lateral-stays/web
 ```
 
-By default, the API runs on `http://localhost:4000` and the web app expects that URL.
+By default, the API runs on `http://localhost:4000` and the web app runs on Vite's default `http://localhost:5173`.
 
 ## Environment Variables
 

@@ -42,7 +42,11 @@ export const CheckoutPage = () => {
       {stayQuery.isSuccess ? (
         <div className="grid gap-8 lg:grid-cols-[1fr_1.3fr]">
           <aside className="h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-            <img className="h-56 w-full rounded-2xl object-cover" src={stayQuery.data.images[0]} alt="" />
+            <img
+              className="h-56 w-full rounded-2xl object-cover"
+              src={stayQuery.data.images[0]}
+              alt={`${stayQuery.data.name} in ${stayQuery.data.location.city}, ${stayQuery.data.location.country}`}
+            />
             <h1 className="mt-5 text-3xl font-bold tracking-tight text-slate-950">{stayQuery.data.name}</h1>
             <p className="mt-2 text-sm text-slate-600">
               {stayQuery.data.location.city}, {stayQuery.data.location.country}

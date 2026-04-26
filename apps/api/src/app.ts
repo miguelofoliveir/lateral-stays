@@ -6,6 +6,7 @@ import { bookingsRouter } from "./features/bookings/bookings.routes.js";
 import { reviewsRouter } from "./features/reviews/reviews.routes.js";
 import { staysRouter } from "./features/stays/stays.routes.js";
 import { errorHandler } from "./middlewares/error-handler.middleware.js";
+import { notFoundHandler } from "./middlewares/not-found.middleware.js";
 import { healthRouter } from "./routes/health.routes.js";
 
 export const createApp = (): Express => {
@@ -23,6 +24,7 @@ export const createApp = (): Express => {
   app.use("/stays", staysRouter);
   app.use("/bookings", bookingsRouter);
 
+  app.use(notFoundHandler);
   app.use(errorHandler);
 
   return app;
